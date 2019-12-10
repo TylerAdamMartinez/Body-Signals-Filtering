@@ -21,3 +21,12 @@ Included Languages:
   <td>Describtion of ECG here.. Brain</td>
 </table>
 
+## Matlab Charts
+### ECG Chart Unfiltered
+![ ECG Chart Unfiltered ](BioSignals/EMG-chart-nofilter.png)
+### ECG Chart Filtered
+![ ECG Chart Filtered ](BioSignals/EMG-chart-filter.png)
+### EMG Chart Temp
+![ ECG Chart Filtered ](BioSignals/Annotation%202019-12-10%20112654.png)
+### EMG Chart Unfiltered
+![ EEG Chart ](BioSignals/EEG-chart.png)
