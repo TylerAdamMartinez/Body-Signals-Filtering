@@ -16,9 +16,9 @@ Included Languages:
   <td><img src="BioSignals/EMG-signal.png" alt="" border="3" height="250" width="500" /></td>
   <td><img src="BioSignals/EEG-signal.png" alt="" border="3" height="250" width="500" /></td>
   </tr>
-  <td>Describtion of ECG here.. Heart </td>
-  <td>Describtion of ECG here.. Muscle</td>
-  <td>Describtion of ECG here.. Brain</td>
+  <td>Description of ECG here.. </br>Heart Signal</td>
+  <td>Description of EMG here.. </br>Muscle Signal</td>
+  <td>Description of EEG here.. </br>Brain Signal</td>
 </table>
 
 ## Matlab Charts
