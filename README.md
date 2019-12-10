@@ -8,9 +8,9 @@ Included Languages:
 
 ## Bio-Signals 
 <table style = "width:100%" align="center">
-  <th>ECG</th>  
-  <th>EMG</th>
-  <th>EEG</th> 
+  <th>Electrocardiography (ECG)</th>  
+  <th>Electromyography (EMG)</th>
+  <th>Electroencephalograhy (EEG)</th> 
   </tr><tr>
   <td><img src="BioSignals/ECG-signal.png" alt="" border="3" height="250" width="500" /></td>
   <td><img src="BioSignals/EMG-signal.png" alt="" border="3" height="250" width="500" /></td>
