@@ -28,7 +28,7 @@ Included Languages:
 ![ ECG Chart Filtered ](BioSignals/EMG-chart-filter.png)
 ### ECG Chart Unfiltered vs Filtered
 ![ ECG Chart Zero Phase ](BioSignals/ECG-chart-zero-phase.png)
-### EMG Chart Temp
-![ ECG Chart Filtered ](BioSignals/Annotation%202019-12-10%20112654.png)
-### EMG Chart Unfiltered
+### EMG Chart
+![ EMG Chart ](BioSignals/EMG-chart.png)
+### EEG Chart
 ![ EEG Chart ](BioSignals/EEG-chart.png)
