@@ -64,7 +64,7 @@ EEGP1(2:end-1) = 2*EEGP1(2:end-1);
 figure('Name','Electrocardiography Unfiltered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGsignal);
-title("RAW ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+title("RAW ECG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
 subplot(2,1,2);
 plot(ECGf, ECGP1);
@@ -74,7 +74,7 @@ xlim([0 100]);
 figure('Name','Electrocardiography Filtered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGfiltered);
-title("Filtered ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+title("Filtered ECG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
 subplot(2,1,2);
 plot(ECGf, ECGP1fil);
@@ -84,17 +84,17 @@ xlim([0 100]);
 figure('Name','Electrocardiographs Unfiltered Vs Filtered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGsignal);
-title("Unfiltered ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+title("Unfiltered ECG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
 subplot(2, 1, 2);
 plot(ECGtime, ECGfiltered);
-title("Filtered ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+title("Filtered ECG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
 
 figure('Name','Electromyographs ','NumberTitle','off');
 subplot(2, 1, 1);
 plot(EMGtime, EMGdata);
-title("EMG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(100 mV)");
+title("EMG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
 subplot(2,1,2);
 plot(EMGP1);
@@ -102,11 +102,27 @@ xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
 figure('Name','Electroencephalograhy','NumberTitle','off');
-subplot(2, 1, 1);
+subplot(3, 1, 1);
 plot(EEGtime, EEGsignal);
-title("EEG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(uV)");
+title("EEG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (uV)");
 
-subplot(2,1,2);
+subplot(3,1,2);
 plot(EEGf, EEGP1);
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
-xlim([0 40]);
+xlim([0 30]);
+
+Delta = EEGP1(1:4);
+Delta = sum(Delta);
+Theta = EEGP1(4:8);
+Theta = sum(Theta);
+Alpha = EEGP1(8:12);
+Alpha = sum(Alpha);
+Beta = EEGP1(12:30);
+Beta = sum(Beta);
+
+EEGbarlabels = categorical({'Delta','Theta','Alpha','Beta'});
+EEGbar = [Delta Theta Alpha Beta];
+
+subplot(3,1,3);
+EEGb = bar(EEGbarlabels, EEGbar);
+title('EEG Signals'); ylabel('Amplitude');
