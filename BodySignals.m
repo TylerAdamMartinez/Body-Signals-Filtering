@@ -10,7 +10,7 @@ Created by Tyler Adam Martinez
 ECGfile = csvread("ECGLab.csv");
 ECGtime = ECGfile(:,1) + 2;
 ECGsignal = ECGfile(:, end);
-%frequency spectrum analysis of the ECG data
+%frequency spectrum analysis of the RAW ECG data
 ECGN = length(ECGtime);
 ECGfs = 2500;
 ECGf = ECGfs*(0:(ECGN/2))/ECGN;
@@ -18,20 +18,34 @@ ECGy = fft(ECGsignal);
 ECGP2 = abs(ECGy/ECGN);
 ECGP1 = ECGP2(1:ECGN/2+1);
 ECGP1(2:end-1) = 2*ECGP1(2:end-1);
+%filering out the 60Hz noise from the signal
+Num = designfilt('bandstopiir','FilterOrder',2, ...
+               'HalfPowerFrequency1',59,'HalfPowerFrequency2',61, ...
+               'DesignMethod','butter','SampleRate',ECGfs);
+ECGfiltered = filtfilt(Num, ECGsignal);
+%frequency spectrum analysis of the Filtered ECG data
+ECGN = length(ECGtime);
+ECGfs = 2500;
+ECGf = ECGfs*(0:(ECGN/2))/ECGN;
+ECGyfiltered = fft(ECGfiltered);
+ECGP2fil = abs(ECGyfiltered/ECGN);
+ECGP1fil = ECGP2fil(1:ECGN/2+1);
+ECGP1fil(2:end-1) = 2*ECGP1fil(2:end-1);
 
 %Gathering EMG data from file
 EMGfile = fopen('EMG.txt', 'r');
 EMGdata = fscanf(EMGfile, '%f');
 %frequency spectrum analysis of the EMG data
 EMGN = length(EMGdata);
-EMGtime = 0:(EMGN - 1);
-EMGtime = transpose(EMGtime);
 EMGfs = 1000;
+EMGtime = 1/(EMGfs):1/(EMGfs):30;
+EMGtime = transpose(EMGtime);
 EMGf = EMGfs*(0:(EMGN/2))/EMGN;
 EMGy = fft(EMGdata);
 EMGP2 = abs(EMGy/EMGN);
-EMGP1 = EMGP2(1:EEGN/2+1);
+EMGP1 = EMGP2(1:EMGN/2+1);
 EMGP1(2:end-1) = 2*EMGP1(2:end-1);
+
 
 %Gathering EEG data from file
 EEGdata = dlmread('EEGSignalCopy.txt', '\t');
@@ -47,33 +61,52 @@ EEGP1 = EEGP2(1:EEGN/2+1);
 EEGP1(2:end-1) = 2*EEGP1(2:end-1);
 
 %plotting the data
-%figure(1);
-figure('Name','Electrocardiography','NumberTitle','off');
+figure('Name','Electrocardiography Unfiltered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGsignal);
-title("ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(100 mV)");
+title("RAW ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
 
 subplot(2,1,2);
 plot(ECGf, ECGP1);
-xlabel('frequency (hz)'); ylabel('amplitude'); title('Frequency Spectrum');
+xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
-figure('Name','Electromyography','NumberTitle','off');
+figure('Name','Electrocardiography Filtered','NumberTitle','off');
 subplot(2, 1, 1);
-plot(EMGdata);
-title("EMG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(mV)");
+plot(ECGtime, ECGfiltered);
+title("Filtered ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+
+subplot(2,1,2);
+plot(ECGf, ECGP1fil);
+xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
+xlim([0 100]);
+
+figure('Name','Electrocardiographs Unfiltered Vs Filtered','NumberTitle','off');
+subplot(2, 1, 1);
+plot(ECGtime, ECGsignal);
+title("Unfiltered ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+
+subplot(2, 1, 2);
+plot(ECGtime, ECGfiltered);
+title("Filtered ECG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (100 mV)");
+
+
+figure('Name','Electromyographs ','NumberTitle','off');
+subplot(2, 1, 1);
+plot(EMGtime, EMGdata);
+title("EMG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(100 mV)");
 
 subplot(2,1,2);
 plot(EMGP1);
-xlabel('frequency (hz)'); ylabel('amplitude'); title('Frequency Spectrum');
+xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
 figure('Name','Electroencephalograhy','NumberTitle','off');
 subplot(2, 1, 1);
 plot(EEGtime, EEGsignal);
-title("EEG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(mV)");
+title("EEG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude(uV)");
 
 subplot(2,1,2);
 plot(EEGf, EEGP1);
-xlabel('frequency (hz)'); ylabel('amplitude'); title('Frequency Spectrum');
+xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 40]);
