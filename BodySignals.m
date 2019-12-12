@@ -1,11 +1,24 @@
 %{
-PUT PROGRAM ALG HERE
-explaination 
-and over all comments about the code here. 
+The ECG, EMG, and EEG was taken from a patient. 
+ECG was recorded in a .csv file
+EMG and EEG was recorded in a .txt file with different delimiters
 
-Created by Tyler Adam Martinez
+Our task: 
+Load the data from the given files into a MATlab script and plot the data.
+Then take the discrete fourier transforms of each signal then plot the
+frequency Spectrums. In addition, create a digital notch filter to remove
+the noise coming from mains power in the ECG signal, determine if the patient was tired
+during the recording of the EMG signal based on the frequency spectrum of
+the EMG signal, and determine the mental state of the patient during
+recording of the EEG signal based on the frequency spectrum of the EEG
+signal. Finally, break down how much of the EEG signal is comprised of the
+four EEG wave components (Delta, Theta, Alpha and Beta), and display it in a bar graph.
+
+Created by Tyler Adam Martinez 
+Date: 12/12/2019
 %}
 
+%% ECG Portion
 %Gathering ECG data from file
 ECGfile = csvread("ECGLab.csv");
 ECGtime = ECGfile(:,1) + 2;
@@ -32,6 +45,7 @@ ECGP2fil = abs(ECGyfiltered/ECGN);
 ECGP1fil = ECGP2fil(1:ECGN/2+1);
 ECGP1fil(2:end-1) = 2*ECGP1fil(2:end-1);
 
+%% EMG Portion
 %Gathering EMG data from file
 EMGfile = fopen('EMG.txt', 'r');
 EMGdata = fscanf(EMGfile, '%f');
@@ -50,7 +64,7 @@ IntFatigue = sum(EMGP1(1:1501));
 IntNFatigue = sum(EMGP1(1:3001, 1)); 
 Fatigue = IntFatigue/IntNFatigue;
 
-
+%% EEG Portion
 %Gathering EEG data from file
 EEGdata = dlmread('EEGSignal.txt', '\t');
 EEGsignal = EEGdata(1, :);
@@ -64,7 +78,7 @@ EEGP2 = abs(EEGy/EEGN);
 EEGP1 = EEGP2(1:EEGN/2+1);
 EEGP1(2:end-1) = 2*EEGP1(2:end-1);
 
-%plotting the data
+%% plotting the data for ECG Unfiltered
 figure('Name','Electrocardiography Unfiltered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGsignal);
@@ -75,6 +89,7 @@ plot(ECGf, ECGP1);
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
+%% plotting the data for ECG Filtered
 figure('Name','Electrocardiography Filtered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGfiltered);
@@ -85,6 +100,7 @@ plot(ECGf, ECGP1fil);
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
+%% plotting the data for ECG Unfiltered vs. Filtered 
 figure('Name','Electrocardiographs Unfiltered Vs Filtered','NumberTitle','off');
 subplot(2, 1, 1);
 plot(ECGtime, ECGsignal);
@@ -94,7 +110,7 @@ subplot(2, 1, 2);
 plot(ECGtime, ECGfiltered);
 title("Filtered ECG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
-
+%% plotting the data for EMG 
 figure('Name','Electromyographs ','NumberTitle','off');
 subplot(2, 1, 1);
 plot(EMGtime, EMGdata);
@@ -105,6 +121,7 @@ plot(EMGf, EMGP1);
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
+%% plotting the data for EEG
 figure('Name','Electroencephalograhy','NumberTitle','off');
 subplot(3, 1, 1);
 plot(EEGtime, EEGsignal);
@@ -115,6 +132,7 @@ plot(EEGf, EEGP1);
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 30]);
 
+%% Sorting the EEG signal into its four components and displaying it in a histogram  
 Delta = EEGP1(1:17);
 Delta = sum(Delta);
 Theta = EEGP1(18:33);
