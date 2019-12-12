@@ -45,10 +45,14 @@ EMGy = fft(EMGdata);
 EMGP2 = abs(EMGy/EMGN);
 EMGP1 = EMGP2(1:EMGN/2+1);
 EMGP1(2:end-1) = 2*EMGP1(2:end-1);
+%Calculating Area underneath curve using Reimann Sums
+IntFatigue = sum(EMGP1(1:1501)); 
+IntNFatigue = sum(EMGP1(1:3001, 1)); 
+Fatigue = IntFatigue/IntNFatigue;
 
 
 %Gathering EEG data from file
-EEGdata = dlmread('EEGSignalCopy.txt', '\t');
+EEGdata = dlmread('EEGSignal.txt', '\t');
 EEGsignal = EEGdata(1, :);
 EEGtime = EEGdata(2, :);
 %frequency spectrum analysis of the EEG data
@@ -97,7 +101,7 @@ plot(EMGtime, EMGdata);
 title("EMG Signal"); xlabel("Seconds (s)"); ylabel("Amplitude (100 mV)");
 
 subplot(2,1,2);
-plot(EMGP1);
+plot(EMGf, EMGP1);
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 100]);
 
@@ -107,17 +111,17 @@ plot(EEGtime, EEGsignal);
 title("EEG Signal"); xlabel("Seconds(s)"); ylabel("Amplitude (uV)");
 
 subplot(3,1,2);
-plot(EEGf, EEGP1);
+plot(EEGf, EEGP1); 
 xlabel('frequency (hz)'); ylabel('Amplitude'); title('Frequency Spectrum');
 xlim([0 30]);
 
-Delta = EEGP1(1:4);
+Delta = EEGP1(1:17);
 Delta = sum(Delta);
-Theta = EEGP1(4:8);
+Theta = EEGP1(18:33);
 Theta = sum(Theta);
-Alpha = EEGP1(8:12);
+Alpha = EEGP1(34:49);
 Alpha = sum(Alpha);
-Beta = EEGP1(12:30);
+Beta = EEGP1(50:162);
 Beta = sum(Beta);
 
 EEGbarlabels = categorical({'Delta','Theta','Alpha','Beta'});
