@@ -1,6 +1,11 @@
-# Body-Signals-Filtering *repository*
+# <p align="center"> Body-Signals-Filtering *repository*
+
+<p align="center" style="display: flex;" >
+<img src="https://visitor-badge.glitch.me/badge?page_id=tyleradammartinez.Body-Signals-Filtering" />
+<img src="https://img.shields.io/npm/l/express" /> </p>
 This repository holds all the files for the final Biomedical Signal Analysis (BMEN 3311) Project.
-</br>
+<br>
+<br>
 
 Included Languages:
 * MATlab
